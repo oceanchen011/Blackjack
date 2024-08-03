@@ -1,10 +1,12 @@
-# Blackjack
+# **Blackjack**
 
 By Mario Martinez (mmart477), Ocean Chen (Github Account), Ted Voo (tvoo001), Alec Boghossian (aleclb223) <sub>(Github Username/Account)<sub>
 
-**Project Idea**
+## **Project Idea**
 A blackjack simulator designed to help card counters by providing a digital enviornment where users can practice and refine their card counting skills. The simulator replicates real-life blackjack games, allowing the user to play multiple hands, track cards, and master 
 basic strategy.
+
+### **Details**
 
 **Major Functional Features**
 1. Deck Configuration and Shuffling Simulation 
