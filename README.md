@@ -34,3 +34,5 @@ A blackjack simulator designed to help blackjack enthusiasts or new players inte
 4. Database Query Language: SQL
 
 **Architecture**
+
+![Diagram](https://github.com/CS-179K/Blackjack/blob/main/Burndown/Blackjack.drawio.png?raw=true)
