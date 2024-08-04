@@ -14,7 +14,7 @@ A blackjack simulator designed to help blackjack enthusiasts or new players inte
 4. Card Counting Gamemode (Story Points: 4)
 5. Bankroll (Credit) Management (Story Points: 3) 
 6. Login/Register User Accounts (Story Points: 3) 
-7. Statistical Analysis and Reporting (Story Points: )
+7. Statistical Analysis and Reporting (Story Points: 5)
 8. Card Dealing Animations (Story Points: 3)
 
 **Non-Functional Features**
