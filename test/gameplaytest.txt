@@ -2,7 +2,6 @@
 4, 7 player double 4, 7, 5 and makes player stand after
 a, 4 player double to get 5, player can't hit after 
 
-
 ## splits 
 QQ player split should be two hands Q and Q, can play like normal 
 AA player split should be two hands A and A and only draw one card
@@ -17,3 +16,6 @@ player: k, 2 clicks hit button draws one card only get K + 2 + 9
 player: kk clicks stand doesn't draw card and moves to dealer turn 
 player: 9,2 clicks double down only draws one card and moves to dealer turn 
 new game button clicked - starts a new game and reshuffles deck. 
+
+
+write next to each test group which task it is testing 
