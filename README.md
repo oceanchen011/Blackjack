@@ -9,12 +9,12 @@ A blackjack simulator designed to help blackjack enthusiasts or new players inte
 
 **Major Functional Features**
 1. Blackjack Game Rules (Story Points: 8) 
-2. Standard 3/2 Blackjack Gamemode (Story Points: 5)
-3. Basic Strategy Gamemode (Story Points: 7) 
-4. Card Counting Gamemode (Story Points: 4)
-5. Bankroll (Credit) Management (Story Points: 3) 
+2. Basic Strategy Gamemode (Story Points: 7) 
+3. Standard 3/2 Blackjack Gamemode (Story Points: 5)
+4. Statistical Analysis and Reporting (Story Points: 5)
+5. Card Counting Gamemode (Story Points: 4)
 6. Login/Register User Accounts (Story Points: 3) 
-7. Statistical Analysis and Reporting (Story Points: 5)
+7. Bankroll (Credit) Management (Story Points: 3)
 8. Card Dealing Animations (Story Points: 3)
 
 **Non-Functional Features**
