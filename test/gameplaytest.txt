@@ -7,3 +7,8 @@ when player splits an ace, they only draw one card for each. No additional hit. 
 
 ## Surrender 
 player gives up and loses half of their bet (when credits are implemented) 
+
+## buttons
+ensure buttons work properly. when hit is pressed, player draws an additional card. when stand is pressed, player doesn't draw cards and dealer reveals their hiddne card. when double, player only draws one card and stands. when split, player splits their cards into two different hands and they get to play like normal.
+
+new game button - starts a new game and reshuffles deck. 
