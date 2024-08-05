@@ -1,1 +1,0 @@
-check value of cards for player and dealer to determine who wins, cloest to 21 wins or if there are busts (card values > 21)
