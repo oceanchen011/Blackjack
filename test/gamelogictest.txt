@@ -1,12 +1,21 @@
 ## Check for bust 
-When player or dealer has cards >21, it is a bust. Player will bust before dealer. 
+check K + 2 + A + K = bust 
+check q + 5 + 7 = bust 
+check K + K + 2 = bust 
 
 ## Check general game logic 
-Check value of cards are correctly added.
-Example check pairwise values of cards to see if they have correct values.
+k + k = 20 
+A + 6 = 17
+A + 6 + 4 = 21
 
 ## Check Aces
-check if A + K = 21 or A + 4 + k = 15 not 25
+check A + K = 21
+A + 4 + k = 15 not 25
+4 + 7 + 8 = 19 
 
 ## Check for dealer BJ when player doesnt have BJ 
-if dealer upper card is any 10 or ace and player doesnt have blackjack, check if dealer under card results in bj. if so it should be instant win for dealer. player shouldnt be able to hit 
+dealer upper = 10 lower = 9, continue game
+dealer upper = k, lower = A, if player doesnt have bj game loss
+dealer upper = A, lower 9 continue game
+
+
