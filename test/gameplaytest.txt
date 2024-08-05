@@ -1,0 +1,9 @@
+## double down
+when player double downs, draws only one card. cannot hit after. 
+
+## splits 
+when player is dealt the same card they can split, treating it as two hands. (10s, jacks, queens, kings are all treated the same as a 10) 
+when player splits an ace, they only draw one card for each. No additional hit. (essentially a double after split) 
+
+## Surrender 
+player gives up and loses half of their bet (when credits are implemented) 
