@@ -39,7 +39,7 @@ A blackjack simulator designed to help blackjack enthusiasts or new players inte
 ![Diagram](https://github.com/CS-179K/Blackjack/blob/main/Burndown/Blackjack.drawio.png?raw=true)
 
 
-**Card Values**
+## **Card Values**
 A - 11 or 1 
 2 to 9 - Just their numeric values
 10, J, Q, K - 10 
