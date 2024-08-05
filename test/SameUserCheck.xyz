@@ -1,0 +1,1 @@
+Make sure that an account with the same name cannot be created if the name already exist in the DB
