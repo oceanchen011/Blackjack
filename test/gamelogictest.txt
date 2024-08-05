@@ -1,2 +1,12 @@
-Check game logic example when player has KK4 = 24, player would lose.  
-if player has blackjack check if dealer has blackjack, if not its a win for player.  
+## Check for bust 
+When player or dealer has cards >21, it is a bust. Player will bust before dealer. 
+
+## Check general game logic 
+Check value of cards are correctly added.
+Example check pairwise values of cards to see if they have correct values.
+
+## Check Aces
+check if A + K = 21 or A + 4 + k = 15 not 25
+
+## Check for dealer BJ when player doesnt have BJ 
+if dealer upper card is any 10 or ace and player doesnt have blackjack, check if dealer under card results in bj. if so it should be instant win for dealer. player shouldnt be able to hit 
