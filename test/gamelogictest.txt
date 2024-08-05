@@ -1,1 +1,2 @@
-
+Check game logic example when player has KK4 = 24, player would lose.  
+if player has blackjack check if dealer has blackjack, if not its a win for player.  
