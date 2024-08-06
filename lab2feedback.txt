@@ -1,0 +1,45 @@
+User Stories:
+
+"As a player although functionality is important, smooth animations would make the game more fun and satisfying to play."
+Is more of a non-functional requirement than a user story
+
+"As an advantage player, I want to be able to practice my card counting as well as play. user story "
+advantage -> advanced
+
+____ Sprint 1 ____
+Tasks:
+
+"11. Register - save accounts a db securly"
+If you have a DB related task, you need a DB schema in your docs as well.
+
+"17. Game engine - Game rules"
+There's some duplication.
+
+Overall it looks like the tasks are not intended for actual planning.
+Which is not atypical, or unreasonable, but do know they could serve a purpose.
+	// That is tasks are split to meet quota, which is fine.
+	// But keep in mind we only have three sprints, there's one group doing:
+	// sprint 1 -> first half, sprint 2 -> second half, sprint 3 -> adapt based on feedback / polish.
+	// Which is about right if you guys want to finish a project you can show off.
+	// Otherwise it will wind up unpolished.
+	//
+	// But I'll leave the planning up to you guys.
+
+Tests:
+
+good
+
+____ conc. ____
+
+If you're planning on showing the project off on a resume you might want to take on a bit more first sprint.
+
+On Thursday you'll need a DB schema for any tasks / and a UI wire frame.
+
+But the project looks feasible, and your docs exist.
+
+6/6
+
+
+
+
+
