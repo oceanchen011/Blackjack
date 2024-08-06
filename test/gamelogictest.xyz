@@ -1,14 +1,14 @@
-## Check for bust 
+## Check for bust - Task 1
 check K + 2 + A + K = bust 
 check q + 5 + 7 = bust 
 check K + K + 2 = bust 
 
-## Check general game logic 
+## Check general game logic - Task 17
 k + k = 20 
 A + 6 = 17
 A + 6 + 4 = 21
 
-## Check Aces
+## Check Aces - Task 3
 check A + K = 21
 A + 4 + k = 15 not 25
 4 + 7 + 8 = 19 
