@@ -23,7 +23,6 @@ def deal_card(deck):
     return deck.pop()
 
 # Calculate the value of the hand
-# Adjusts for aces if necessary
 def hand_value(hand):
     value = 0
     ace_count = 0
@@ -41,35 +40,37 @@ def hand_value(hand):
 def card_to_str(card):
     rank, suit = card.split(' of ')
     suit_symbols = {
-        'Hearts': '  ♥',
-        'Diamonds': '  ♦',
-        'Clubs': '  ♣',
-        'Spades': '  ♠'
+        'Hearts': '♥',
+        'Diamonds': '♦',
+        'Clubs': '♣',
+        'Spades': '♠'
     }
-    return f"{rank:<2} {suit_symbols[suit]}"
+    return f"{rank:<2}{suit_symbols[suit]}"
 
-# Terminal output for readability while playing
+# Print cards in hand
 def print_hand(player, hand, hide_first_card=False):
     rows = ['', '', '', '', '']
+    card_strs = []
+
     if hide_first_card:
-        visible_hand = [hand[0]]
-        card_strs = [card_to_str(hand[0])]
+        card_strs = [card_to_str(hand[0])]  # Show only the first card if hiding
+        rows[0] += "+------+"  
+        rows[1] += f"|{card_to_str(hand[0])}   |"  
+        rows[2] += "|      |"  
+        rows[3] += "|      |"  
+        rows[4] += "+------+"  
+        rows[0] += "+------+"  
+        rows[1] += "|Hidden| "  
+        rows[2] += "|      |"  
+        rows[3] += "|      |"  
+        rows[4] += "+------+"  
     else:
-        visible_hand = hand
         card_strs = [card_to_str(card) for card in hand]
-    
-    for card_str in card_strs:
-        if card_str == '[Hidden]':
+        for card_str in card_strs:
             rows[0] += "+------+"  
-            rows[1] += "|[Hidden]| "  
+            rows[1] += f"|{card_str}   |"  
             rows[2] += "|      |"  
-            rows[3] += "|      |"  
-            rows[4] += "+------+"  
-        else:
-            rows[0] += "+------+"  
-            rows[1] += f"|{card_str}|"  
-            rows[2] += "|      |"  
-            rows[3] += "|      |"  
+            rows[3] += "|      |"
             rows[4] += "+------+"  
     
     print(f"{player}'s hand:")
@@ -82,7 +83,7 @@ def print_hand(player, hand, hide_first_card=False):
 
 # Simulates the Dealer hitting until 17 or higher
 def dealer_turn(deck, hand):
-    while hand_value(hand) <= 17:
+    while hand_value(hand) < 17:
         hand.append(deal_card(deck))
     return hand
 
@@ -94,8 +95,8 @@ def player_turn(deck, hand):
             hand.append(deal_card(deck))
             print_hand('Player', hand)
             if hand_value(hand) > 21:
-                print("Player busts!")
-                break
+                print("Player busts! Dealer wins.")
+                return 'bust'  # Indicate player bust
         elif action == 'stand':
             break
         elif action == 'double':
@@ -107,70 +108,84 @@ def player_turn(deck, hand):
 
 # Handles splitting hands based on player choice
 def handle_split(deck, hand):
-    if len(hand) == 2 and hand[0].split()[0] == hand[1].split()[0]:
-        while True:
-            split_decision = input("You have a pair. Do you want to split? If so type 'yes' or 'no'!").lower()
-            if split_decision == 'yes':
-                hand1 = [hand.pop(0), deal_card(deck)]
-                hand2 = [hand.pop(0), deal_card(deck)]
-                print("\nSplitting hands:")
-                print_hand('Player Hand 1', hand1)
-                print_hand('Player Hand 2', hand2)
-                
-                # Play both hands
-                player_turn(deck, hand1)
-                player_turn(deck, hand2)
-                return [hand1, hand2]
-            elif split_decision == 'no':
-                return [hand]
-            else:
-                print("Invalid choice. Please choose 'split' or 'stand'.")
-    return [hand]
+    if len(hand) == 2:
+        card1_rank = hand[0].split()[0]
+        card2_rank = hand[1].split()[0]
+        
+        # Check if the cards are splitable
+        if card1_rank == card2_rank or (card_values[card1_rank] == 10 and card_values[card2_rank] == 10):
+            while True:
+                split_decision = input("Do you want to split? Type 'yes' or 'no': ").lower()
+                if split_decision == 'yes':
+                    hand1 = [hand.pop(0), deal_card(deck)]
+                    hand2 = [hand.pop(0), deal_card(deck)]
+                    print("\nSplitting hands:")
+                    print_hand('Player Hand 1', hand1)
+                    print_hand('Player Hand 2', hand2)
+                    
+                    # Play both hands
+                    result1 = player_turn(deck, hand1)
+                    result2 = player_turn(deck, hand2)
+                    return [hand1, hand2], result1, result2
+                elif split_decision == 'no':
+                    return [hand], 'continue', 'continue'
+                else:
+                    print("Invalid choice. Please choose 'yes' or 'no'.")
+        else:
+            return [hand], 'continue', 'continue'
 
 # Combines individual parts into the full game
 def play_blackjack():
-    deck = create_deck(num_decks=2)  
-    shuffle_deck(deck)
-    
-    # Initialize hands
-    player_hand = [deal_card(deck), deal_card(deck)]
-    dealer_hand = [deal_card(deck), deal_card(deck)]
-    
-    # Show initial hands
-    print_hand('Dealer', dealer_hand, hide_first_card=True)
-    print_hand('Player', player_hand)
-    
-    # Player's turn
-    hands_to_play = handle_split(deck, player_hand)
-    
-    for hand in hands_to_play:
-        player_turn(deck, hand)
-    
-    # Dealer's turn
-    print("\nDealer's turn:")
-    dealer_hand = dealer_turn(deck, dealer_hand)
-    print_hand('Dealer', dealer_hand)  # Reveal the dealer's hand after playing out
+    while True:
+        deck = create_deck(num_decks=2)  
+        shuffle_deck(deck)
+        
+        player_hand = [deal_card(deck), deal_card(deck)]
+        dealer_hand = [deal_card(deck), deal_card(deck)]
+        
+        print_hand('Dealer', dealer_hand, hide_first_card=True)
+        print_hand('Player', player_hand)
+        
+        hands_to_play, result1, result2 = handle_split(deck, player_hand)
+        
+        game_ongoing = True
+        for hand, result in zip(hands_to_play, [result1, result2]):
+            if result == 'bust':
+                game_ongoing = False
+                break
+            player_turn(deck, hand)
+        
+        if game_ongoing:
+            print("\nDealer's turn:")
+            dealer_hand = dealer_turn(deck, dealer_hand)
+            print_hand('Dealer', dealer_hand)  # Reveal the dealer's hand after playing out
 
-    # Determine the winner for each hand
-    for hand in hands_to_play:
-        player_score = hand_value(hand)
         dealer_score = hand_value(dealer_hand)
         
-        print("\nFinal Scores:")
-        print(f"Player: {player_score}")
-        print(f"Dealer: {dealer_score}")
-        
-        # Determine the winner
-        if player_score > 21:
-            print("Player busts! Dealer wins.")
-        elif dealer_score > 21:
-            print("Dealer busts! Player wins.")
-        elif player_score > dealer_score:
-            print("Player wins!")
-        elif player_score < dealer_score:
-            print("Dealer wins!")
-        else:
-            print("It's a tie!")
+        for hand, result in zip(hands_to_play, [result1, result2]):
+            player_score = hand_value(hand)
+            
+            if dealer_score == 21:
+                print("Dealer has 21! Dealer wins.")
+            elif player_score > 21:
+                print("Player busts! Dealer wins.")
+            elif player_score == 21:
+                if dealer_score == 21:
+                    print("Push! Both dealer and player have 21.")
+                else:
+                    print("Player wins with 21!")
+            elif dealer_score > 21:
+                print("Dealer busts! Player wins.")
+            elif player_score > dealer_score:
+                print("Player wins!")
+            elif player_score < dealer_score:
+                print("Dealer wins!")
+            else:
+                print("It's a tie!")
+
+        play_again = input("Do you want to play again? (yes/no): ").lower()
+        if play_again != 'yes':
+            break
 
 if __name__ == "__main__":
     play_blackjack()
