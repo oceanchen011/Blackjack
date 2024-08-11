@@ -1,0 +1,175 @@
+import random
+
+# Define card values
+card_values = {
+    '2': 2, '3': 3, '4': 4, '5': 5, '6': 6, '7': 7, '8': 8, '9': 9, '10': 10,
+    'J': 10, 'Q': 10, 'K': 10, 'A': 11
+}
+
+# Create a standard deck of 52 cards
+def create_deck(num_decks=2):
+    suits = ['Hearts', 'Diamonds', 'Clubs', 'Spades']
+    ranks = list(card_values.keys())
+    deck = [f'{rank} of {suit}' for suit in suits for rank in ranks]
+    return deck * num_decks
+
+# Shuffle the deck
+def shuffle_deck(deck):
+    random.shuffle(deck)
+    return deck
+
+# Deal a card from the deck
+def deal_card(deck):
+    return deck.pop()
+
+# Calculate the value of the hand
+def hand_value(hand):
+    value = 0
+    ace_count = 0
+    for card in hand:
+        rank = card.split()[0]
+        value += card_values[rank]
+        if rank == 'A':
+            ace_count += 1
+    while value > 21 and ace_count:
+        value -= 10
+        ace_count -= 1
+    return value
+
+# Convert Cards to Strings
+def card_to_str(card):
+    rank, suit = card.split(' of ')
+    suit_symbols = {
+        'Hearts': '♥',
+        'Diamonds': '♦',
+        'Clubs': '♣',
+        'Spades': '♠'
+    }
+    return f"{rank:<2}{suit_symbols[suit]}"
+
+# Print cards in hand
+def print_hand(player, hand, hide_first_card=False):
+    rows = ['', '', '', '', '']
+    card_strs = []
+
+    if hide_first_card:
+        card_strs = [card_to_str(hand[0])]  # Show only the first card if hiding
+        rows[0] += "+------+"  
+        rows[1] += f"|{card_to_str(hand[0])}   |"  
+        rows[2] += "|      |"  
+        rows[3] += "|      |"  
+        rows[4] += "+------+"  
+        rows[0] += "+------+"  
+        rows[1] += "|Hidden| "  
+        rows[2] += "|      |"  
+        rows[3] += "|      |"  
+        rows[4] += "+------+"  
+    else:
+        card_strs = [card_to_str(card) for card in hand]
+        for card_str in card_strs:
+            rows[0] += "+------+"  
+            rows[1] += f"|{card_str}   |"  
+            rows[2] += "|      |"  
+            rows[3] += "|      |"
+            rows[4] += "+------+"  
+    
+    print(f"{player}'s hand:")
+    print("\n".join(rows))
+    
+    if not hide_first_card:
+        print(f"{', '.join(card_strs)} (Value: {hand_value(hand)})")
+    print()
+
+# Simulates the Dealer hitting until 17 or higher
+def dealer_turn(deck, hand):
+    while hand_value(hand) < 17:
+        hand.append(deal_card(deck))
+    return hand
+
+# Simulates player's actions (Hit, Stand, Double) automatically
+def player_turn(deck, hand):
+    while hand_value(hand) < 17:  # Assuming the player hits until 17 or more
+        hand.append(deal_card(deck))
+        if hand_value(hand) > 21:
+            return 'bust'  # Indicate player bust
+    return 'stand'
+
+# Handles splitting hands automatically
+def handle_split(deck, hand):
+    if len(hand) == 2:
+        card1_rank = hand[0].split()[0]
+        card2_rank = hand[1].split()[0]
+        
+        if card1_rank == card2_rank or (card_values[card1_rank] == 10 and card_values[card2_rank] == 10):
+            hand1 = [hand.pop(0), deal_card(deck)]
+            hand2 = [hand.pop(0), deal_card(deck)]
+            result1 = player_turn(deck, hand1)
+            result2 = player_turn(deck, hand2)
+            return [hand1, hand2], result1, result2
+        else:
+            return [hand], 'continue', 'continue'
+    else:
+        return [hand], 'continue', 'continue'
+
+# Combines individual parts into the full game
+def play_blackjack():
+    deck = create_deck(num_decks=2)  
+    shuffle_deck(deck)
+    
+    player_hand = [deal_card(deck), deal_card(deck)]
+    dealer_hand = [deal_card(deck), deal_card(deck)]
+    
+    # Print the initial hands with the dealer's first card hidden
+    print_hand('Dealer', dealer_hand, hide_first_card=True)
+    print_hand('Player', player_hand)
+    
+    hands_to_play, result1, result2 = handle_split(deck, player_hand)
+    
+    game_ongoing = True
+    for hand, result in zip(hands_to_play, [result1, result2]):
+        if result == 'bust':
+            game_ongoing = False
+            break
+        player_turn(deck, hand)
+    
+    if game_ongoing:
+        dealer_hand = dealer_turn(deck, dealer_hand)
+    
+    dealer_score = hand_value(dealer_hand)
+    results = []
+    
+    # Print final hands with dealer's full hand revealed
+    print_hand('Dealer', dealer_hand)
+    print_hand('Player', player_hand)
+    
+    for hand, result in zip(hands_to_play, [result1, result2]):
+        player_score = hand_value(hand)
+        
+        if dealer_score == 21:
+            results.append("Dealer wins with 21!")
+        elif player_score > 21:
+            results.append("Player busts! Dealer wins.")
+        elif player_score == 21:
+            if dealer_score == 21:
+                results.append("Push! Both dealer and player have 21.")
+            else:
+                results.append("Player wins with 21!")
+        elif dealer_score > 21:
+            results.append("Dealer busts! Player wins.")
+        elif player_score > dealer_score:
+            results.append("Player wins!")
+        elif player_score < dealer_score:
+            results.append("Dealer wins!")
+        else:
+            results.append("It's a tie!")
+    
+    return results
+
+# Run the game 10 times
+for i in range(10):
+    print(f"Game {i+1}:")
+    results = play_blackjack()
+    for result in results:
+        print(result)
+    print()
+    print("----------------------------------")
